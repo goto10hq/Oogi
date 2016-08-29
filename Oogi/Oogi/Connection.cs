@@ -63,7 +63,7 @@ namespace Oogi
         /// <summary>
         /// Upsert document(s) as pure json.
         /// </summary>
-        public List<Document> UpsertJson(string jsonString)
+        public List<object> UpsertJson(string jsonString)
         {
             return AsyncTools.RunSync(() => UpsertJsonAsync(jsonString));
         }
@@ -71,18 +71,13 @@ namespace Oogi
         /// <summary>
         /// Upsert document(s) as pure json.
         /// </summary>
-        public async Task<List<Document>> UpsertJsonAsync(string jsonString)
+        public async Task<List<object>> UpsertJsonAsync(string jsonString)
         {
             if (jsonString == null)
                 throw new ArgumentNullException(nameof(jsonString));
 
-            var result = new List<Document>();
-            var docs = JsonConvert.DeserializeObject<List<Document>>(jsonString, new JsonSerializerSettings
-                                                                                 {
-                Formatting = Formatting.None,
-                TypeNameHandling = TypeNameHandling.Auto,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+            var result = new List<object>();
+            var docs = JsonConvert.DeserializeObject<List<object>>(jsonString);
 
             foreach (var doc in docs)
             {
