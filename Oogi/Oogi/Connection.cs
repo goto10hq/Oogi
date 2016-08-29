@@ -7,6 +7,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Sushi;
 
 namespace Oogi
@@ -30,7 +31,7 @@ namespace Oogi
         {
             var connectionPolicy = new ConnectionPolicy
                                    {
-                                       UserAgentSuffix = CloudConfigurationManager.GetSetting("DocumentDbUserAgentSuffix"),
+                                       UserAgentSuffix = CloudConfigurationManager.GetSetting("DocumentDbUserAgentSuffix") ?? "Oogi",
                                        ConnectionMode = ConnectionMode.Direct,
                                        ConnectionProtocol = Protocol.Tcp
                                    };
@@ -48,7 +49,7 @@ namespace Oogi
         {
             var connectionPolicy = new ConnectionPolicy
             {
-                UserAgentSuffix = CloudConfigurationManager.GetSetting("DocumentDbUserAgentSuffix"),
+                UserAgentSuffix = CloudConfigurationManager.GetSetting("DocumentDbUserAgentSuffix") ?? "Oogi",
                 ConnectionMode = ConnectionMode.Direct,
                 ConnectionProtocol = Protocol.Tcp
             };
@@ -62,17 +63,33 @@ namespace Oogi
         /// <summary>
         /// Upsert document(s) as pure json.
         /// </summary>
-        public async Task UpsertJsonAsync(string jsonString)
+        public List<Document> UpsertJson(string jsonString)
+        {
+            return AsyncTools.RunSync(() => UpsertJsonAsync(jsonString));
+        }
+
+        /// <summary>
+        /// Upsert document(s) as pure json.
+        /// </summary>
+        public async Task<List<Document>> UpsertJsonAsync(string jsonString)
         {
             if (jsonString == null)
                 throw new ArgumentNullException(nameof(jsonString));
 
-            var docs = JsonConvert.DeserializeObject<List<Document>>(jsonString);
+            var result = new List<Document>();
+            var docs = JsonConvert.DeserializeObject<List<Document>>(jsonString, new JsonSerializerSettings
+                                                                                 {
+                Formatting = Formatting.None,
+                TypeNameHandling = TypeNameHandling.Auto,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
 
             foreach (var doc in docs)
             {
-                await Core.ExecuteWithRetriesAsync(() => Client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), doc));
-            }                
+                result.Add(await Core.ExecuteWithRetriesAsync(() => Client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), doc)));
+            }
+
+            return result;
         }
 
         /// <summary>

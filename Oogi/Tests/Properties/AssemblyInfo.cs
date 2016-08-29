@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Oogi")]
+[assembly: AssemblyTitle("Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Goto10")]
-[assembly: AssemblyProduct("Oogi")]
-[assembly: AssemblyCopyright("Copyright © 2016 Goto10")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5a68b8f5-894c-4f61-a988-b0d055157979")]
+[assembly: Guid("eba103a9-d56b-48b2-b229-64efe2c2af1f")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2016.242.1510.5")]
-[assembly: AssemblyFileVersion("2016.242.1510.5")]
+[assembly: AssemblyVersion("2016.242.1517.5")]
+[assembly: AssemblyFileVersion("2016.242.1517.5")]
