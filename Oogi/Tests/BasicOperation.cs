@@ -1,0 +1,103 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Azure.Documents;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Oogi;
+
+namespace Tests
+{
+    [TestClass]
+    public class BasicOperation
+    {
+        private const string _entity = "oogi/robot";
+        private static readonly Repository<Robot> _repo = new Repository<Robot>();
+
+        private readonly List<Robot> Robots = new List<Robot>
+                         {
+                            new Robot("Alfred", 100, true, new List<string> { "CPU", "Laser" }),
+                            new Robot("Nausica", 220, true, new List<string> { "CPU", "Bio scanner", "DSP" }),
+                            new Robot("Kosuna", 190, false, new List<string>())
+                         };
+
+        public class Robot : BaseEntity
+        {            
+            public override string Id { get; set; }
+            public override string Entity { get; set; } = _entity;
+
+            public string Name { get; set; }
+            public int ArtificialIq { get; set; }
+            public Stamp Created { get; set; } = new Stamp();
+            public bool IsOperational { get; set; }
+            public List<string> Parts { get; set; } = new List<string>();
+
+            public Robot()
+            {                
+            }
+
+            public Robot(string name, int artificialIq, bool isOperational, List<string> parts)
+            {
+                Name = name;
+                ArtificialIq = artificialIq;                
+                IsOperational = isOperational;
+                Parts = parts;
+            }
+        }
+
+        [TestInitialize]
+        public void CreateRobots()
+        {               
+            foreach (var robot in Robots)
+                _repo.Create(robot);
+        }
+
+        [TestCleanup]
+        public void DeleteRobots()
+        {            
+            var robots = _repo.GetAll();
+
+            foreach (var robot in robots)
+            {
+                _repo.Delete(robot);
+            }
+        }
+
+        [TestMethod]
+        public void SelectAll()
+        {                                    
+            var robots = _repo.GetAll();
+           
+            Assert.AreEqual(Robots.Count, robots.Count);            
+        }
+
+        [TestMethod]
+        public void SelectList()
+        {            
+            var q = new SqlQuerySpec($"select * from c where c.entity = '{_entity}' and c.artificialIq > 120");
+            var robots = _repo.GetList(q);
+
+            Assert.AreEqual(Robots.Count(x => x.ArtificialIq > 120), robots.Count);            
+        }
+
+        [TestMethod]
+        public void Delete()
+        {
+            var q = new SqlQuerySpec($"select * from c where c.entity = '{_entity}' order by c.artificialIq");
+            var robots = _repo.GetList(q);
+
+            Assert.AreEqual(Robots.Count, robots.Count);
+
+            var dumbestRobotId = robots[0].Id;
+
+            _repo.Delete(dumbestRobotId);
+
+            var smartestRobot = robots[robots.Count - 1];
+
+            _repo.Delete(smartestRobot);
+
+            robots = _repo.GetAll();
+
+            Assert.AreEqual(1, robots.Count);
+            Assert.AreEqual(Robots.OrderBy(x => x.ArtificialIq).Skip(1).First().ArtificialIq, robots[0].ArtificialIq);
+        }
+    }
+}

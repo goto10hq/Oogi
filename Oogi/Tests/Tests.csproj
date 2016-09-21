@@ -64,6 +64,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BasicOperation.cs" />
     <Compile Include="Various.cs" />
     <Compile Include="ExternalDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
