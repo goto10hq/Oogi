@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +17,7 @@ namespace Tests
                          {
                             new Robot("Alfred", 100, true, new List<string> { "CPU", "Laser" }),
                             new Robot("Nausica", 220, true, new List<string> { "CPU", "Bio scanner", "DSP" }),
-                            new Robot("Kosuna", 190, false, new List<string>())
+                            new Robot("Kosuna", 190, false, new List<string>()) { Message = @"\'\\''" }
                          };
 
         public class Robot : BaseEntity
@@ -29,6 +30,7 @@ namespace Tests
             public Stamp Created { get; set; } = new Stamp();
             public bool IsOperational { get; set; }
             public List<string> Parts { get; set; } = new List<string>();
+            public string Message { get; set; }
 
             public Robot()
             {                
@@ -52,7 +54,7 @@ namespace Tests
 
         [TestCleanup]
         public void DeleteRobots()
-        {            
+        {
             var robots = _repo.GetAll();
 
             foreach (var robot in robots)
@@ -76,6 +78,28 @@ namespace Tests
             var robots = _repo.GetList(q);
 
             Assert.AreEqual(Robots.Count(x => x.ArtificialIq > 120), robots.Count);            
+        }
+
+        [TestMethod]
+        public void SelectEscaped()
+        {
+            var q = new SqlQuerySpec($"select * from c where c.entity = '{_entity}' and c.message = @message")
+                    {
+                        Parameters = new SqlParameterCollection
+                                     {
+                                         new SqlParameter("@message", @"\'\\''")
+                                     }
+                    };
+
+
+            var robot = _repo.GetFirstOrDefault(q);            
+            Assert.AreNotEqual(robot, null);
+
+            if (robot != null)
+            {
+                _repo.GetFirstOrDefault(robot.Id);
+                Assert.AreNotEqual(robot, null);
+            }
         }
 
         [TestMethod]

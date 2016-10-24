@@ -35,7 +35,7 @@ namespace Oogi
                         continue;
 
                     if (p.Value is string)                    
-                        r = r.Replace(p.Name, "'" + p.Value.ToString().Replace("'", "\\'") + "'");
+                        r = r.Replace(p.Name, "'" + p.Value.ToString().ToEscapedString() + "'");
                     else if (p.Value is bool)
                         r = r.Replace(p.Name, p.Value.ToString().ToLower());                    
                     else
@@ -44,7 +44,13 @@ namespace Oogi
             }
 
             return r;
-        }        
+        }
+
+        private static string ToEscapedString(this string s)
+        {
+            s = s ?? string.Empty;
+            return s.Replace(@"\", @"\\").Replace("'", @"\'");
+        }
 
         /// <summary>
         /// Execute db action with retries.
