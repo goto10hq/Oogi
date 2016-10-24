@@ -29,7 +29,11 @@ namespace Oogi
         public async Task<T> GetFirstOrDefaultAsync(SqlQuerySpec query = null)
         {
             if (query == null)
-                query = new SqlQuerySpec($"select top 1 * from c where c.entity = '{Core.ToEntity<T>()}'");
+                query = new SqlQuerySpec("select top 1 * from c where c.entity = @entity",
+                    new SqlParameterCollection
+                    {
+                        new SqlParameter("@entity", Core.ToEntity<T>())
+                    });                     
 
             var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), query).AsDocumentQuery();
             var response = await Core.ExecuteWithRetriesAsync(() => QuerySingleDocumentAsync(q));
@@ -49,7 +53,13 @@ namespace Oogi
         /// </summary>
         public async Task<T> GetFirstOrDefaultAsync(string id)
         {
-            var query = new SqlQuerySpec($"select top 1 * from c where c.entity = '{Core.ToEntity<T>()}' and c.id = '{id}'");
+            var query = new SqlQuerySpec("select top 1 * from c where c.entity =  @entity and c.id = @id",
+                new SqlParameterCollection
+                {
+                    new SqlParameter("@entity", Core.ToEntity<T>()),
+                    new SqlParameter("@id", id)
+                });
+
             return await GetFirstOrDefaultAsync(query);
         }
 
@@ -158,7 +168,11 @@ namespace Oogi
         /// </summary>        
         public async Task<List<T>> GetAllAsync()
         {            
-            var query = new SqlQuerySpec($"select * from c where c.entity = '{Core.ToEntity<T>()}'");
+            var query = new SqlQuerySpec("select * from c where c.entity = @entity", new SqlParameterCollection
+                                                                                     {
+                                                                                         new SqlParameter("@entity", Core.ToEntity<T>())
+                                                                                     });
+
             var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), query).AsDocumentQuery();
 
             var response = await Core.ExecuteWithRetriesAsync(() => QueryMoreDocumentsAsync(q));

@@ -97,8 +97,12 @@ namespace Tests
 
             if (robot != null)
             {
-                _repo.GetFirstOrDefault(robot.Id);
+                var oldId = robot.Id;
+                _repo.GetFirstOrDefault(oldId);                
+
                 Assert.AreNotEqual(robot, null);
+                Assert.AreEqual(robot.Id, oldId);
+                
             }
         }
 
