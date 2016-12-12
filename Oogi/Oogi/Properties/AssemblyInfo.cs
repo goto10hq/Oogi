@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Oogi")]
-[assembly: AssemblyDescription("DocumentDB repository.")]
+[assembly: AssemblyDescription("DocumentDB repository pattern ovelord.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Goto10")]
 [assembly: AssemblyProduct("Oogi")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.5.0")]
-[assembly: AssemblyFileVersion("1.0.5.0")]
+[assembly: AssemblyVersion("1.0.6.0")]
+[assembly: AssemblyFileVersion("1.0.6.0")]
