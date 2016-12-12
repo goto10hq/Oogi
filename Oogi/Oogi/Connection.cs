@@ -7,7 +7,6 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Sushi;
 
 namespace Oogi
@@ -31,13 +30,12 @@ namespace Oogi
         {
             var connectionPolicy = new ConnectionPolicy
                                    {
-                                       UserAgentSuffix = CloudConfigurationManager.GetSetting("DocumentDbUserAgentSuffix") ?? "Oogi",
+                                       UserAgentSuffix = CloudConfigurationManager.GetSetting("Oogi.DocumentDbUserAgentSuffix") ?? "Oogi",
                                        ConnectionMode = ConnectionMode.Direct,
                                        ConnectionProtocol = Protocol.Tcp
                                    };
 
-            Client = new DocumentClient(new Uri(endpoint), authorizationKey, connectionPolicy);
-            Client.OpenAsync();
+            Client = new DocumentClient(new Uri(endpoint), authorizationKey, connectionPolicy);                     
             DatabaseId = database;
             CollectionId = collection;
         }
@@ -49,15 +47,14 @@ namespace Oogi
         {
             var connectionPolicy = new ConnectionPolicy
             {
-                UserAgentSuffix = CloudConfigurationManager.GetSetting("DocumentDbUserAgentSuffix") ?? "Oogi",
+                UserAgentSuffix = CloudConfigurationManager.GetSetting("Oogi.DocumentDbUserAgentSuffix") ?? "Oogi",
                 ConnectionMode = ConnectionMode.Direct,
                 ConnectionProtocol = Protocol.Tcp
             };
 
-            Client = new DocumentClient(new Uri(CloudConfigurationManager.GetSetting("DocumentDbEndPoint")), CloudConfigurationManager.GetSetting("DocumentDbAuthorizationKey"), connectionPolicy);
-            Client.OpenAsync();
-            DatabaseId = CloudConfigurationManager.GetSetting("DocumentDbDatabase");
-            CollectionId = CloudConfigurationManager.GetSetting("DocumentDbCollection");
+            Client = new DocumentClient(new Uri(CloudConfigurationManager.GetSetting("Oogi.DocumentDbEndPoint")), CloudConfigurationManager.GetSetting("Oogi.DocumentDbAuthorizationKey"), connectionPolicy);            
+            DatabaseId = CloudConfigurationManager.GetSetting("Oogi.DocumentDbDatabase");
+            CollectionId = CloudConfigurationManager.GetSetting("Oogi.DocumentDbCollection");
         }
 
         /// <summary>
@@ -179,11 +176,14 @@ namespace Oogi
 
                 try
                 {
+                    var token = continuationToken;
+                    dynamic config = cubeConfig;
+
                     result = await Core.ExecuteWithRetriesAsync<StoredProcedureResponse<dynamic>>(() => Client.ExecuteStoredProcedureAsync<dynamic>
                         (
                             UriFactory.CreateStoredProcedureUri(DatabaseId, CollectionId, "cube"), 
-                            cubeConfig, 
-                            continuationToken)
+                            config, 
+                            token)
                         );
                 }
                 catch (DocumentClientException de)
