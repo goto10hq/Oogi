@@ -18,7 +18,7 @@ namespace Oogi
 
         /// <summary>
         /// Get sql query from sql query spec.
-        /// </summary>
+        /// </summary>        
         public static string ToSqlQuery(this SqlQuerySpec sqs)
         {
             if (sqs == null)

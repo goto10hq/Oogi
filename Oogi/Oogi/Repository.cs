@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
+using Oogi.Query;
 using Sushi;
 
 namespace Oogi
@@ -22,22 +23,32 @@ namespace Oogi
         {
             _connection = new Connection(endpoint, authorizationKey, database, collection);
         }
-        
+
+        private async Task<T> GetFirstOrDefaultHelperAsync(IQuery<T> query = null)
+        {
+            SqlQuerySpec sqlq;
+
+            if (query == null)
+            {
+                var qq = new SqlQuerySpecQuery<T>();
+                sqlq = qq.ToGetFirstOrDefault();
+            }
+            else
+            {
+                sqlq = query.ToGetFirstOrDefault();
+            }
+
+            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sqlq).AsDocumentQuery();
+            var response = await Core.ExecuteWithRetriesAsync(() => QuerySingleDocumentAsync(q));
+            return response.AsEnumerable().FirstOrDefault();
+        }
+
         /// <summary>
         /// Get first or default.
         /// </summary>
         public async Task<T> GetFirstOrDefaultAsync(SqlQuerySpec query = null)
         {
-            if (query == null)
-                query = new SqlQuerySpec("select top 1 * from c where c.entity = @entity",
-                    new SqlParameterCollection
-                    {
-                        new SqlParameter("@entity", Core.ToEntity<T>())
-                    });                     
-
-            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), query).AsDocumentQuery();
-            var response = await Core.ExecuteWithRetriesAsync(() => QuerySingleDocumentAsync(q));
-            return response.AsEnumerable().FirstOrDefault();            
+            return await GetFirstOrDefaultHelperAsync(new SqlQuerySpecQuery<T>(query));
         }
 
         /// <summary>
@@ -52,15 +63,8 @@ namespace Oogi
         /// Get first or default.
         /// </summary>
         public async Task<T> GetFirstOrDefaultAsync(string id)
-        {
-            var query = new SqlQuerySpec("select top 1 * from c where c.entity =  @entity and c.id = @id",
-                new SqlParameterCollection
-                {
-                    new SqlParameter("@entity", Core.ToEntity<T>()),
-                    new SqlParameter("@id", id)
-                });
-
-            return await GetFirstOrDefaultAsync(query);
+        {            
+            return await GetFirstOrDefaultHelperAsync(new IdQuery<T>(id));
         }
 
         /// <summary>
@@ -168,12 +172,9 @@ namespace Oogi
         /// </summary>        
         public async Task<List<T>> GetAllAsync()
         {            
-            var query = new SqlQuerySpec("select * from c where c.entity = @entity", new SqlParameterCollection
-                                                                                     {
-                                                                                         new SqlParameter("@entity", Core.ToEntity<T>())
-                                                                                     });
-
-            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), query).AsDocumentQuery();
+            var query = new SqlQuerySpecQuery<T>();
+		    var sq = query.ToGetAll();
+            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sq).AsDocumentQuery();
 
             var response = await Core.ExecuteWithRetriesAsync(() => QueryMoreDocumentsAsync(q));
             return response;
@@ -186,17 +187,23 @@ namespace Oogi
         {
             var all = AsyncTools.RunSync(GetAllAsync);
             return all;
-        }		        
+        }
+
+        private async Task<List<T>> GetListHelperAsync(IQuery<T> query)
+        {
+            var sq = query.ToSqlQuerySpec();
+            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sq).AsDocumentQuery();
+
+            var response = await Core.ExecuteWithRetriesAsync(() => QueryMoreDocumentsAsync(q));
+            return response;
+        }
 
         /// <summary>
         /// Get list from query.
         /// </summary>        
         public async Task<List<T>> GetListAsync(SqlQuerySpec query)
         {
-            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), query).AsDocumentQuery();
-
-            var response = await Core.ExecuteWithRetriesAsync(() => QueryMoreDocumentsAsync(q));
-            return response;
+            return await GetListHelperAsync(new SqlQuerySpecQuery<T>(query));
         }
 
         /// <summary>
