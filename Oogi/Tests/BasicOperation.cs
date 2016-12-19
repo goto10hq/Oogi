@@ -73,7 +73,12 @@ namespace Tests
         [TestMethod]
         public void SelectList()
         {            
-            var q = new SqlQuerySpec($"select * from c where c.entity = '{_entity}' and c.artificialIq > 120");
+            var q = new SqlQuerySpec("select * from c where c.entity = @entity and c.artificialIq > @iq",
+                new SqlParameterCollection
+                {
+                    new SqlParameter("@entity", _entity),
+                    new SqlParameter("@iq", 120)
+                });
             var robots = _repo.GetList(q);
 
             Assert.AreEqual(Robots.Count(x => x.ArtificialIq > 120), robots.Count);            
@@ -82,10 +87,11 @@ namespace Tests
         [TestMethod]
         public void SelectEscaped()
         {
-            var q = new SqlQuerySpec($"select * from c where c.entity = '{_entity}' and c.message = @message")
+            var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.message = @message")
                     {
                         Parameters = new SqlParameterCollection
                                      {
+                                         new SqlParameter("@entity", _entity),
                                          new SqlParameter("@message", @"\'\\''")
                                      }
                     };
@@ -108,7 +114,12 @@ namespace Tests
         [TestMethod]
         public void Delete()
         {
-            var q = new SqlQuerySpec($"select * from c where c.entity = '{_entity}' order by c.artificialIq");
+            var q = new SqlQuerySpec("select * from c where c.entity = @entity order by c.artificialIq",
+                new SqlParameterCollection
+                {
+                    new SqlParameter("@entity", _entity)
+                });
+
             var robots = _repo.GetList(q);
 
             Assert.AreEqual(Robots.Count, robots.Count);
