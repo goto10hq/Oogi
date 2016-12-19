@@ -6,8 +6,7 @@ namespace Tests
 {
     [TestClass]
     public class SqlParameters
-    {
-        
+    {        
         [TestMethod]
         public void Classic()
         {
@@ -25,6 +24,27 @@ namespace Tests
             var sql = q.ToSqlQuery();
             
             Assert.AreEqual("a = '!\\'\\'!', b = 'x', c = null, d = true, e = 13, f = 13.99", sql);            
-        }        
+        }
+
+        public enum State
+        {
+            Ready = 10,
+            Processing = 20,
+            Finished = 30
+        }
+
+        [TestMethod]
+        public void ClassicEnum()
+        {
+            var q = new SqlQuerySpec("state = @state",
+                new SqlParameterCollection
+                {
+                    new SqlParameter("@state", State.Processing),                    
+                });
+
+            var sql = q.ToSqlQuery();
+
+            Assert.AreEqual("state = 20", sql);
+        }
     }
 }

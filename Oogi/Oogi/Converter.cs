@@ -11,15 +11,18 @@ namespace Oogi
                                                                          { typeof(string), StringProcessor },
                                                                          { typeof(char), StringProcessor },
                                                                          { typeof(bool), BooleanProcessor },
-                                                                         { typeof(bool?), BooleanProcessor }
+                                                                         { typeof(bool?), BooleanProcessor }                                                                         
                                                                      };
 
         public static string Process(object val)
         {
             if (val == null)
                 return "null";
-
+            
             var t = val.GetType();
+
+            if (t.IsEnum)
+                return EnumProcessor(val);
 
             return _processors.ContainsKey(t) ? _processors[t].Invoke(val) : UniversalProcessor(val);
         }
@@ -39,6 +42,14 @@ namespace Oogi
         private static string BooleanProcessor(object val)
         {
             return val.ToString().ToLower();
+        }
+
+        private static string EnumProcessor(object val)
+        {
+            var underlyingType = Enum.GetUnderlyingType(val.GetType());
+            var value = Convert.ChangeType(val, underlyingType);
+
+            return Process(value);
         }
     }
 }
