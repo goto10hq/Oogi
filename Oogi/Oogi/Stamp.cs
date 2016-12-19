@@ -1,12 +1,9 @@
 ﻿using System;
-using Sushi;
 
 namespace Oogi
 {
-    public class Stamp
+    public class Stamp : SimpleStamp
     {
-        public DateTime DateTime { get; set; }
-        public int Epoch => DateTime.ToEpoch();
         public int Year => DateTime.Year;
         public int Month => DateTime.Month;
         public int Day => DateTime.Day;
