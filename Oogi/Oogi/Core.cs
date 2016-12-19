@@ -32,9 +32,8 @@ namespace Oogi
                 foreach (var p in sqs.Parameters)
                 {
                     if (p.Value == null)
-                        continue;
-
-                    if (p.Value is string)                    
+                        r = r.Replace(p.Name, "null");
+                    else if (p.Value is string || p.Value is char)                    
                         r = r.Replace(p.Name, "'" + p.Value.ToString().ToEscapedString() + "'");
                     else if (p.Value is bool)
                         r = r.Replace(p.Name, p.Value.ToString().ToLower());                    
