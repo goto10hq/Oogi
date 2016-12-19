@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="Converter.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="CubeConfig.cs" />
     <Compile Include="Paginator.cs" />

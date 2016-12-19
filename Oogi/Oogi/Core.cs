@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
-using Sushi;
 
 namespace Oogi
 {
@@ -32,36 +31,13 @@ namespace Oogi
             {
                 foreach (var p in sqs.Parameters)
                 {
-                    if (p.Value == null)
-                    {
-                        r = r.Replace(p.Name, "null");
-                    }
-                    else if (p.Value is string ||
-                             p.Value is char)
-                    {
-                        r = r.Replace(p.Name, "'" + p.Value.ToString().ToEscapedString() + "'");
-                    }
-                    else if (p.Value is bool)
-                    {
-                        r = r.Replace(p.Name, p.Value.ToString().ToLower());
-                    }
-                    else
-                    {
-                        var formattable = p.Value as IFormattable;
-                        
-                        r = r.Replace(p.Name, formattable?.ToString(null, Cultures.English) ?? p.Value.ToString());
-                    }
+                    var v = Converter.Process(p.Value);
+                    r = r.Replace(p.Name, v);                    
                 }
             }
 
             return r;
-        }
-
-        private static string ToEscapedString(this string s)
-        {
-            s = s ?? string.Empty;
-            return s.Replace(@"\", @"\\").Replace("'", @"\'");
-        }
+        }      
 
         /// <summary>
         /// Execute db action with retries.

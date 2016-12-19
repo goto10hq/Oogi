@@ -17,5 +17,14 @@ namespace Oogi
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
         }
+
+        /// <summary>
+        /// Escape value.
+        /// </summary>
+        public static string ToEscapedString(this string value)
+        {
+            value = value ?? string.Empty;
+            return value.Replace(@"\", @"\\").Replace("'", @"\'");
+        }
     }
 }
