@@ -22,11 +22,16 @@ namespace Oogi.Query
 
         public SqlQuerySpec ToGetFirstOrDefault()
         {
-            return new SqlQuerySpec("select top 1 * from c where c.entity = @entity",
-                new SqlParameterCollection
-                {
-                    new SqlParameter("@entity", Core.ToEntity<T>())
-                });
+            if (_sqlQuerySpec == null)
+            {
+                return new SqlQuerySpec("select top 1 * from c where c.entity = @entity",
+                    new SqlParameterCollection
+                    {
+                        new SqlParameter("@entity", Core.ToEntity<T>())
+                    });
+            }
+
+            return _sqlQuerySpec;
         }
 
         public SqlQuerySpec ToGetAll()

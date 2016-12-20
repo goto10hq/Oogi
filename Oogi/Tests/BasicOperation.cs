@@ -85,6 +85,29 @@ namespace Tests
         }
 
         [TestMethod]
+        public void SelectFirstOrDefault()
+        {
+            var robot = _repo.GetFirstOrDefault();
+
+            Assert.AreNotEqual(robot, null);
+            Assert.AreEqual(100, robot.ArtificialIq);
+
+            var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.artificialIq = @iq")
+            {
+                Parameters = new SqlParameterCollection
+                                     {
+                                         new SqlParameter("@entity", _entity),
+                                         new SqlParameter("@iq", 190)
+                                     }
+            };
+
+            robot = _repo.GetFirstOrDefault(q);
+
+            Assert.AreNotEqual(robot, null);
+            Assert.AreEqual(190, robot.ArtificialIq);
+        }
+
+        [TestMethod]
         public void SelectEscaped()
         {
             var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.message = @message")
