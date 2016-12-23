@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Oogi")]
-[assembly: AssemblyDescription("DocumentDB repository pattern ovelord.")]
+[assembly: AssemblyDescription("DocumentDB repository pattern overlord.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Goto10")]
 [assembly: AssemblyProduct("Oogi")]
