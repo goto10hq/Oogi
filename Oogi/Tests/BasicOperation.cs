@@ -86,6 +86,19 @@ namespace Tests
         }
 
         [TestMethod]
+        public void SelectListDynamic()
+        {            
+            var robots = _repo.GetList("select * from c where c.entity = @entity and c.artificialIq > @iq",
+                new
+                {
+                    entity = _entity,
+                    iq = 120
+                });
+
+            Assert.AreEqual(Robots.Count(x => x.ArtificialIq > 120), robots.Count);
+        }
+
+        [TestMethod]
         public void SelectFirstOrDefault()
         {
             var robot = _repo.GetFirstOrDefault();
@@ -93,7 +106,7 @@ namespace Tests
             Assert.AreNotEqual(robot, null);
             Assert.AreEqual(100, robot.ArtificialIq);
 
-            var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.artificialIq = @iq")
+            var q = new SqlQuerySpec("select * from c where c.entity = @entity and c.artificialIq = @iq")
             {
                 Parameters = new SqlParameterCollection
                                      {
@@ -106,12 +119,22 @@ namespace Tests
 
             Assert.AreNotEqual(robot, null);
             Assert.AreEqual(190, robot.ArtificialIq);
+            
+            robot = _repo.GetFirstOrDefault("select * from c where c.entity = @entity and c.artificialIq = @iq",
+                new
+                {
+                    entity = _entity,
+                    iq = 190
+                });
+
+            Assert.AreNotEqual(robot, null);
+            Assert.AreEqual(190, robot.ArtificialIq);
         }
 
         [TestMethod]
         public void SelectEscaped()
         {
-            var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.message = @message")
+            var q = new SqlQuerySpec("select * from c where c.entity = @entity and c.message = @message")
                     {
                         Parameters = new SqlParameterCollection
                                      {
@@ -137,14 +160,8 @@ namespace Tests
 
         [TestMethod]
         public void Delete()
-        {
-            var q = new SqlQuerySpec("select * from c where c.entity = @entity order by c.artificialIq",
-                new SqlParameterCollection
-                {
-                    new SqlParameter("@entity", _entity)
-                });
-
-            var robots = _repo.GetList(q);
+        {            
+            var robots = _repo.GetList("select * from c where c.entity = @entity order by c.artificialIq", new { entity = _entity });
 
             Assert.AreEqual(Robots.Count, robots.Count);
 
