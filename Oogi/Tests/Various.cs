@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oogi;
+using Oogi.Tokens;
 using Sushi;
 
 namespace Tests

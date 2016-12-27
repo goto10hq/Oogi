@@ -1,7 +1,7 @@
 ﻿using System;
 using Sushi;
 
-namespace Oogi
+namespace Oogi.Tokens
 {
     public class SimpleStamp
     {

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oogi;
+using Oogi.Tokens;
 
 namespace Tests
 {

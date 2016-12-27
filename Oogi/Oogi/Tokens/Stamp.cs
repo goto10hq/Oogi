@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Oogi
+namespace Oogi.Tokens
 {
     public class Stamp : SimpleStamp
     {

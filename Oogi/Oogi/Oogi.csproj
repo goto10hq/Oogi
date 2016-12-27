@@ -69,8 +69,8 @@
     <Compile Include="Query\SqlQuerySpecQuery.cs" />
     <Compile Include="Query\IdQuery.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="SimpleStamp.cs" />
-    <Compile Include="Stamp.cs" />
+    <Compile Include="Tokens\SimpleStamp.cs" />
+    <Compile Include="Tokens\Stamp.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
