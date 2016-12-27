@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oogi;
+using Oogi.Tokens;
 
 namespace Tests
 {
@@ -46,6 +48,21 @@ namespace Tests
             var sql = q.ToSqlQuery();
 
             Assert.AreEqual("state = 20", sql);
+        }
+
+        [TestMethod]
+        public void Stamps()
+        {
+            var q = new SqlQuerySpec("epoch = @stamp, epoch2 in (@stamp2)",
+                new SqlParameterCollection
+                {
+                    new SqlParameter("@stamp", new Stamp(new DateTime(2000, 1, 1))),
+                    new SqlParameter("@stamp2", new SimpleStamp(new DateTime(2001, 1, 1))),
+                });
+
+            var sql = q.ToSqlQuery();
+
+            Assert.AreEqual("epoch = 946684800, epoch2 in (9466848002)", sql);
         }
 
         [TestMethod]
@@ -94,6 +111,22 @@ namespace Tests
             var sql = q.ToSqlQuery();
 
             Assert.AreEqual("items in (10,30)", sql);
+        }
+
+        [TestMethod]
+        public void ListOfFloats()
+        {
+            var ids = new List<float> { 6.3f, 8.2f };
+
+            var q = new SqlQuerySpec("items in @ids",
+                new SqlParameterCollection
+                {
+                    new SqlParameter("@ids", ids),
+                });
+
+            var sql = q.ToSqlQuery();
+
+            Assert.AreEqual("items in (6.3,8.2)", sql);
         }
 
         [TestMethod]

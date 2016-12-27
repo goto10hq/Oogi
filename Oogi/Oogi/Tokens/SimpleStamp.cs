@@ -3,7 +3,7 @@ using Sushi;
 
 namespace Oogi.Tokens
 {
-    public class SimpleStamp
+    public class SimpleStamp : IStamp
     {
         public DateTime DateTime { get; set; }
         public int Epoch => DateTime.ToEpoch();

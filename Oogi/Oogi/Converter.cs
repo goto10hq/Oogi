@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Oogi.Tokens;
 using Sushi;
 
 namespace Oogi
@@ -15,8 +16,16 @@ namespace Oogi
                                                                          { typeof(char), StringProcessor },
                                                                          { typeof(bool), BooleanProcessor },
                                                                          { typeof(bool?), BooleanProcessor },
-                                                                         { typeof(IEnumerable), ListProcessor }
+                                                                         { typeof(Stamp), StampProcessor },
+                                                                         { typeof(SimpleStamp), StampProcessor }
                                                                      };
+
+        private static string StampProcessor(object arg)
+        {
+            var stamp = arg as IStamp;
+
+            return stamp == null ? "null" : Process(stamp.Epoch);
+        }
 
         private static string ListProcessor(object items)
         {
