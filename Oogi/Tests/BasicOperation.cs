@@ -74,7 +74,7 @@ namespace Tests
         [TestMethod]
         public void SelectList()
         {            
-            var q = new SqlQuerySpec("select * from c where c.entity = @entity and c.artificialIq > @iq",
+            var q = new Microsoft.Azure.Documents.SqlQuerySpec("select * from c where c.entity = @entity and c.artificialIq > @iq",
                 new SqlParameterCollection
                 {
                     new SqlParameter("@entity", _entity),
@@ -93,7 +93,7 @@ namespace Tests
             Assert.AreNotEqual(robot, null);
             Assert.AreEqual(100, robot.ArtificialIq);
 
-            var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.artificialIq = @iq")
+            var q = new Microsoft.Azure.Documents.SqlQuerySpec($"select * from c where c.entity = @entity and c.artificialIq = @iq")
             {
                 Parameters = new SqlParameterCollection
                                      {
@@ -111,7 +111,7 @@ namespace Tests
         [TestMethod]
         public void SelectEscaped()
         {
-            var q = new SqlQuerySpec($"select * from c where c.entity = @entity and c.message = @message")
+            var q = new Microsoft.Azure.Documents.SqlQuerySpec($"select * from c where c.entity = @entity and c.message = @message")
                     {
                         Parameters = new SqlParameterCollection
                                      {
@@ -138,7 +138,7 @@ namespace Tests
         [TestMethod]
         public void Delete()
         {
-            var q = new SqlQuerySpec("select * from c where c.entity = @entity order by c.artificialIq",
+            var q = new Microsoft.Azure.Documents.SqlQuerySpec("select * from c where c.entity = @entity order by c.artificialIq",
                 new SqlParameterCollection
                 {
                     new SqlParameter("@entity", _entity)

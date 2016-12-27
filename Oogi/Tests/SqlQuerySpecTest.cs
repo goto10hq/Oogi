@@ -8,7 +8,7 @@ using Oogi.Tokens;
 namespace Tests
 {
     [TestClass]
-    public class SqlParameters
+    public class SqlQuerySpecTest
     {        
         [TestMethod]
         public void Classic()
@@ -132,7 +132,7 @@ namespace Tests
         [TestMethod]
         public void EmptyList()
         {
-            var ids = new List<State> { };
+            var ids = new List<State>();
 
             var q = new SqlQuerySpec("items in @ids",
                 new SqlParameterCollection

@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Microsoft.Azure.Documents;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Oogi
@@ -26,5 +30,24 @@ namespace Oogi
             value = value ?? string.Empty;
             return value.Replace(@"\", @"\\").Replace("'", @"\'");
         }
+
+        /// <summary>
+        /// Convert anonymous object to parameters.
+        /// </summary>
+        public static SqlParameterCollection AnonymousObjectToSqlParameters(object parameters)
+        {
+            if (parameters == null)
+                return new SqlParameterCollection();
+            
+            var collection = new SqlParameterCollection();
+            
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(parameters))
+            {
+                object obj2 = descriptor.GetValue(parameters);
+                collection.Add(new SqlParameter("@" + descriptor.Name, obj2));
+            }
+
+            return collection;
+        }        
     }
 }

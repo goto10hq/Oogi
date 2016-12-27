@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
+using Oogi.Query;
 
 namespace Oogi
 {
@@ -14,6 +15,19 @@ namespace Oogi
         {
             var n = (T)Activator.CreateInstance(typeof(T), null);
             return n.Entity;
+        }
+
+        /// <summary>
+        /// Get sql query from dynamic query.
+        /// </summary>        
+        public static string ToSqlQuery(this DynamicQuery<BaseEntity> dq)
+        {
+            if (dq == null)
+                throw new ArgumentNullException(nameof(dq));
+
+            var sqlqs = dq.ToSqlQuerySpec();
+
+            return ToSqlQuery(sqlqs);
         }
 
         /// <summary>

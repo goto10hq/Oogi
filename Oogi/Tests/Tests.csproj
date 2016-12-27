@@ -65,7 +65,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicOperation.cs" />
-    <Compile Include="SqlParameters.cs" />
+    <Compile Include="DynamicQueryTest.cs" />
+    <Compile Include="SqlQuerySpecTest.cs" />
     <Compile Include="Various.cs" />
     <Compile Include="ExternalDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
