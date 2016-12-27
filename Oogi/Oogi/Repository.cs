@@ -54,9 +54,41 @@ namespace Oogi
         /// <summary>
         /// Get first or default.
         /// </summary>
+        public async Task<T> GetFirstOrDefaultAsync(DynamicQuery<T> query)
+        {
+            return await GetFirstOrDefaultHelperAsync(query);
+        }
+
+        /// <summary>
+        /// Get first or default.
+        /// </summary>
+        public async Task<T> GetFirstOrDefaultAsync(string query, object parameters)
+        {
+            return await GetFirstOrDefaultHelperAsync(new DynamicQuery<T>(query, parameters));
+        }
+
+        /// <summary>
+        /// Get first or default.
+        /// </summary>
         public T GetFirstOrDefault(SqlQuerySpec query = null)
         {
             return AsyncTools.RunSync(() => GetFirstOrDefaultAsync(query));
+        }
+
+        /// <summary>
+        /// Get first or default.
+        /// </summary>
+        public T GetFirstOrDefault(DynamicQuery<T> query)
+        {
+            return AsyncTools.RunSync(() => GetFirstOrDefaultAsync(query));
+        }
+
+        /// <summary>
+        /// Get first or default.
+        /// </summary>
+        public T GetFirstOrDefault(string sql, object parameters)
+        {
+            return AsyncTools.RunSync(() => GetFirstOrDefaultAsync(new DynamicQuery<T>(sql, parameters)));
         }
 
         /// <summary>
@@ -209,15 +241,44 @@ namespace Oogi
         /// <summary>
         /// Get list from query.
         /// </summary>        
+        public async Task<List<T>> GetListAsync(DynamicQuery<T> query)
+        {
+            return await GetListHelperAsync(query);
+        }
+
+        /// <summary>
+        /// Get list from query.
+        /// </summary>        
+        public async Task<List<T>> GetListAsync(string query, object parameters)
+        {
+            return await GetListHelperAsync(new DynamicQuery<T>(query, parameters));
+        }
+
+        /// <summary>
+        /// Get list from query.
+        /// </summary>        
         public List<T> GetList(SqlQuerySpec query)
         {
             return AsyncTools.RunSync(() => GetListAsync(query));
         }
-        
+
         /// <summary>
-        /// Get list with paging.
+        /// Get list from query.
         /// </summary>        
-        public async Task<Paginator<T>> GetListAsync(SqlQuerySpec query, int pageNumber, int pageSize)
+        public List<T> GetList(DynamicQuery<T> query)
+        {
+            return AsyncTools.RunSync(() => GetListAsync(query));
+        }
+
+        /// <summary>
+        /// Get list from query.
+        /// </summary>        
+        public List<T> GetList(string query, object parameters)
+        {
+            return AsyncTools.RunSync(() => GetListAsync(new DynamicQuery<T>(query, parameters)));
+        }
+
+        private async Task<Paginator<T>> GetListHelperAsync(IQuery<T> query, int pageNumber, int pageSize)
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
@@ -225,14 +286,14 @@ namespace Oogi
             if (pageNumber == 0 ||
                 pageSize == 0)
             {
-                var res = await GetListAsync(query);
+                var res = await GetListAsync(query.ToSqlQuerySpec());
                 return new Paginator<T>(null, res.Count, res);
             }
 
             string continuationToken = null;
             var total = 0;
             var result = new List<T>();
-            var qq = query.ToSqlQuery();
+            var qq = query.ToSqlQuerySpec().ToSqlQuery();
 
             do
             {
@@ -280,11 +341,51 @@ namespace Oogi
         /// <summary>
         /// Get list with paging.
         /// </summary>        
+        public async Task<Paginator<T>> GetListAsync(SqlQuerySpec query, int pageNumber, int pageSize)
+        {
+            return await GetListHelperAsync(new SqlQuerySpecQuery<T>(query), pageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// Get list with paging.
+        /// </summary>        
+        public async Task<Paginator<T>> GetListAsync(DynamicQuery<T> query, int pageNumber, int pageSize)
+        {
+            return await GetListHelperAsync(query, pageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// Get list with paging.
+        /// </summary>        
+        public async Task<Paginator<T>> GetListAsync(string query, object parameters, int pageNumber, int pageSize)
+        {
+            return await GetListHelperAsync(new DynamicQuery<T>(query, parameters), pageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// Get list with paging.
+        /// </summary>        
         public Paginator<T> GetList(SqlQuerySpec query, int pageNumber, int pageSize)
         {
             return AsyncTools.RunSync(() => GetListAsync(query, pageNumber, pageSize));
-        }        
-        
+        }
+
+        /// <summary>
+        /// Get list with paging.
+        /// </summary>        
+        public Paginator<T> GetList(DynamicQuery<T> query, int pageNumber, int pageSize)
+        {
+            return AsyncTools.RunSync(() => GetListAsync(query, pageNumber, pageSize));
+        }
+
+        /// <summary>
+        /// Get list with paging.
+        /// </summary>        
+        public Paginator<T> GetList(string query, object parameters, int pageNumber, int pageSize)
+        {
+            return AsyncTools.RunSync(() => GetListAsync(new DynamicQuery<T>(query, parameters), pageNumber, pageSize));
+        }
+
         private static async Task<FeedResponse<T>> QuerySingleDocumentAsync(IDocumentQuery<T> query)
         {
             return await query.ExecuteNextAsync<T>();
