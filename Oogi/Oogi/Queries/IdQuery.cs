@@ -2,7 +2,7 @@
 
 namespace Oogi.Queries
 {
-    public class IdQuery<T> : IQuery<T> where T : BaseEntity
+    public class IdQuery<T> : IQuery where T : BaseEntity
     {
         private readonly string _id;                       
 

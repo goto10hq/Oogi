@@ -2,7 +2,7 @@
 
 namespace Oogi.Queries
 {
-    public interface IQuery<T> where T : BaseEntity
+    public interface IQuery
     {
         SqlQuerySpec ToSqlQuerySpec();
         SqlQuerySpec ToGetFirstOrDefault();

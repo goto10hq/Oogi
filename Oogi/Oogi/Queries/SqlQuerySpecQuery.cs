@@ -2,7 +2,7 @@
 
 namespace Oogi.Queries
 {
-    public class SqlQuerySpecQuery<T> : IQuery<T> where T : BaseEntity
+    public class SqlQuerySpecQuery<T> : IQuery where T : BaseEntity
     {
         private readonly SqlQuerySpec _sqlQuerySpec;
 

@@ -13,7 +13,7 @@ namespace Tests
         private const string _entity = "oogi/robot";
         private static readonly Repository<Robot> _repo = new Repository<Robot>();
 
-        private readonly List<Robot> Robots = new List<Robot>
+        private readonly List<Robot> _robots = new List<Robot>
                          {
                             new Robot("Alfred", 100, true, new List<string> { "CPU", "Laser" }),
                             new Robot("Nausica", 220, true, new List<string> { "CPU", "Bio scanner", "DSP" }),
@@ -48,7 +48,7 @@ namespace Tests
         [TestInitialize]
         public void CreateRobots()
         {               
-            foreach (var robot in Robots)
+            foreach (var robot in _robots)
                 _repo.Create(robot);
         }
 
@@ -68,7 +68,7 @@ namespace Tests
         {                                    
             var robots = _repo.GetAll();
            
-            Assert.AreEqual(Robots.Count, robots.Count);            
+            Assert.AreEqual(_robots.Count, robots.Count);            
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Tests
                 });
             var robots = _repo.GetList(q);
 
-            Assert.AreEqual(Robots.Count(x => x.ArtificialIq > 120), robots.Count);            
+            Assert.AreEqual(_robots.Count(x => x.ArtificialIq > 120), robots.Count);            
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace Tests
                     iq = 120
                 });
 
-            Assert.AreEqual(Robots.Count(x => x.ArtificialIq > 120), robots.Count);
+            Assert.AreEqual(_robots.Count(x => x.ArtificialIq > 120), robots.Count);
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace Tests
         {            
             var robots = _repo.GetList("select * from c where c.entity = @entity order by c.artificialIq", new { entity = _entity });
 
-            Assert.AreEqual(Robots.Count, robots.Count);
+            Assert.AreEqual(_robots.Count, robots.Count);
 
             var dumbestRobotId = robots[0].Id;
 
@@ -176,7 +176,7 @@ namespace Tests
             robots = _repo.GetAll();
 
             Assert.AreEqual(1, robots.Count);
-            Assert.AreEqual(Robots.OrderBy(x => x.ArtificialIq).Skip(1).First().ArtificialIq, robots[0].ArtificialIq);
+            Assert.AreEqual(_robots.OrderBy(x => x.ArtificialIq).Skip(1).First().ArtificialIq, robots[0].ArtificialIq);
         }
     }
 }

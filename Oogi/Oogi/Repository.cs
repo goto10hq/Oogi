@@ -24,7 +24,7 @@ namespace Oogi
             _connection = new Connection(endpoint, authorizationKey, database, collection);
         }
 
-        private async Task<T> GetFirstOrDefaultHelperAsync(IQuery<T> query = null)
+        private async Task<T> GetFirstOrDefaultHelperAsync(IQuery query = null)
         {
             SqlQuerySpec sqlq;
 
@@ -221,7 +221,7 @@ namespace Oogi
             return all;
         }
 
-        private async Task<List<T>> GetListHelperAsync(IQuery<T> query)
+        private async Task<List<T>> GetListHelperAsync(IQuery query)
         {
             var sq = query.ToSqlQuerySpec();
             var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sq).AsDocumentQuery();
@@ -278,7 +278,7 @@ namespace Oogi
             return AsyncTools.RunSync(() => GetListAsync(new DynamicQuery<T>(query, parameters)));
         }
 
-        private async Task<Paginator<T>> GetListHelperAsync(IQuery<T> query, int pageNumber, int pageSize)
+        private async Task<Paginator<T>> GetListHelperAsync(IQuery query, int pageNumber, int pageSize)
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
@@ -302,13 +302,15 @@ namespace Oogi
 
                 try
                 {
+                    var token = continuationToken;
+
                     response = await Core.ExecuteWithRetriesAsync(() => _connection.Client.ExecuteStoredProcedureAsync<Paginator<T>>
                         (
                          UriFactory.CreateStoredProcedureUri(_connection.DatabaseId, _connection.CollectionId, "paginator"),
                             qq,
                             pageNumber,
                             pageSize,
-                            continuationToken)
+                            token)
                         );
                 }
                 catch (DocumentClientException de)

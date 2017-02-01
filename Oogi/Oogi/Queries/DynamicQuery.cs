@@ -2,7 +2,7 @@
 
 namespace Oogi.Queries
 {
-    public class DynamicQuery<T> : IQuery<T> where T : BaseEntity
+    public class DynamicQuery<T> : IQuery where T : BaseEntity
     {
         private readonly object _parameters;
         private readonly string _sql;
