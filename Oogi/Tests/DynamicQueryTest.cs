@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oogi;
-using Oogi.Query;
+using Oogi.Queries;
 using Oogi.Tokens;
 
 namespace Tests

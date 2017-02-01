@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
-using Oogi.Query;
+using Oogi.Queries;
 
 namespace Oogi
 {

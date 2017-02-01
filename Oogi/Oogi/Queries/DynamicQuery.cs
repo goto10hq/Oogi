@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Documents;
 
-namespace Oogi.Query
+namespace Oogi.Queries
 {
     public class DynamicQuery<T> : IQuery<T> where T : BaseEntity
     {

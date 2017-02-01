@@ -63,12 +63,12 @@
     <Compile Include="Converter.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="CubeConfig.cs" />
-    <Compile Include="Query\IQuery.cs" />
+    <Compile Include="Queries\IQuery.cs" />
     <Compile Include="Paginator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Query\DynamicQuery.cs" />
-    <Compile Include="Query\SqlQuerySpecQuery.cs" />
-    <Compile Include="Query\IdQuery.cs" />
+    <Compile Include="Queries\DynamicQuery.cs" />
+    <Compile Include="Queries\SqlQuerySpecQuery.cs" />
+    <Compile Include="Queries\IdQuery.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Tokens\IStamp.cs" />
     <Compile Include="Tokens\SimpleStamp.cs" />

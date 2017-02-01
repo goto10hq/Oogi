@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
-using Oogi.Query;
+using Oogi.Queries;
 using Sushi;
 
 namespace Oogi

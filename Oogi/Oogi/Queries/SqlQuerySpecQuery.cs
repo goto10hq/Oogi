@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Documents;
 
-namespace Oogi.Query
+namespace Oogi.Queries
 {
     public class SqlQuerySpecQuery<T> : IQuery<T> where T : BaseEntity
     {
