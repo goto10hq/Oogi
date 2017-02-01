@@ -14,7 +14,7 @@ namespace Oogi.Queries
         {
         }
 
-        public DynamicQuery(string sql, object parameters)
+        public DynamicQuery(string sql, object parameters = null)
         {
             _sql = sql;
             _parameters = parameters;                      

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oogi;
 using Oogi.Queries;
@@ -73,6 +72,16 @@ namespace Tests
             var sql = q.ToSqlQuery();
 
             Assert.AreEqual("items in (null)", sql);
+        }
+
+        [TestMethod]
+        public void NoParameters()
+        {
+            var q = new DynamicQuery<BaseEntity>("select * from c");
+
+            var sql = q.ToSqlQuery();
+
+            Assert.AreEqual("select * from c", sql);
         }
     }
 }
