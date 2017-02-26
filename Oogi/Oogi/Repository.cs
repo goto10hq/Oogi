@@ -38,7 +38,8 @@ namespace Oogi
                 sqlq = query.ToGetFirstOrDefault();
             }
 
-            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sqlq).AsDocumentQuery();
+            var sq = sqlq.ToSqlQuery();
+            var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sq).AsDocumentQuery();
             var response = await Core.ExecuteWithRetriesAsync(() => QuerySingleDocumentAsync(q));
             return response.AsEnumerable().FirstOrDefault();
         }
@@ -205,7 +206,7 @@ namespace Oogi
         public async Task<List<T>> GetAllAsync()
         {            
             var query = new SqlQuerySpecQuery<T>();
-		    var sq = query.ToGetAll();
+		    var sq = query.ToGetAll().ToSqlQuery(); 
             var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sq).AsDocumentQuery();
 
             var response = await Core.ExecuteWithRetriesAsync(() => QueryMoreDocumentsAsync(q));
@@ -223,7 +224,7 @@ namespace Oogi
 
         private async Task<List<T>> GetListHelperAsync(IQuery query)
         {
-            var sq = query.ToSqlQuerySpec();
+            var sq = query.ToSqlQuerySpec().ToSqlQuery();
             var q = _connection.Client.CreateDocumentQuery<T>(UriFactory.CreateDocumentCollectionUri(_connection.DatabaseId, _connection.CollectionId), sq).AsDocumentQuery();
 
             var response = await Core.ExecuteWithRetriesAsync(() => QueryMoreDocumentsAsync(q));

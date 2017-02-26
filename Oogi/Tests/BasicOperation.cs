@@ -97,18 +97,48 @@ namespace Tests
         }
 
         [TestMethod]
-        public void SelectByMoreEnums()
+        public void SelectByMoreEnumsAsList()
         {
-            var q = new DynamicQuery<Robot>("select * from c where c.entity = @entity and c.state = @states",
+            var q = new DynamicQuery<Robot>("select * from c where c.entity = @entity and c.state in @states",
                 new
                 {
                     entity = _entity,
-                    states = new List<State> {  State.Ready, State.Sleeping }
+                    states = new List<State> { State.Ready, State.Sleeping }
                 });
 
             var robots = _repo.GetList(q);
 
             Assert.AreEqual(_robots.Count(x => x.State != State.Destroyed), robots.Count);
+        }
+
+        [TestMethod]
+        public void SelectByMoreEnumsAsFirstOrDefault()
+        {
+            var q = new DynamicQuery<Robot>("select * from c where c.entity = @entity and c.state in @states",
+                new
+                {
+                    entity = _entity,
+                    states = new List<State> { State.Destroyed, State.Sleeping }
+                });
+
+            var robot = _repo.GetFirstOrDefault(q);
+
+            Assert.AreEqual("Nausica", robot.Name);
+        }
+
+        [TestMethod]
+        public void SelectByMoreEnumsAsFirstOrDefaultWithNoResult()
+        {
+            var q = new DynamicQuery<Robot>("select * from c where c.entity = @entity and c.state in @states",
+                new
+                {
+                    entity = _entity,
+                    states = new List<State> { State.Destroyed, State.Destroyed, State.Destroyed }
+                });
+
+            var robot = _repo.GetFirstOrDefault(q);
+
+            Assert.AreEqual(null, robot);
         }
 
         [TestMethod]
