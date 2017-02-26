@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Oogi;
+using Oogi.Queries;
 using Oogi.Tokens;
 
 namespace Tests
@@ -15,10 +16,17 @@ namespace Tests
 
         private readonly List<Robot> _robots = new List<Robot>
                          {
-                            new Robot("Alfred", 100, true, new List<string> { "CPU", "Laser" }),
-                            new Robot("Nausica", 220, true, new List<string> { "CPU", "Bio scanner", "DSP" }),
-                            new Robot("Kosuna", 190, false, new List<string>()) { Message = @"\'\\''" }
+                            new Robot("Alfred", 100, true, new List<string> { "CPU", "Laser" }, State.Ready),
+                            new Robot("Nausica", 220, true, new List<string> { "CPU", "Bio scanner", "DSP" }, State.Sleeping),
+                            new Robot("Kosuna", 190, false, new List<string>(), State.Ready) { Message = @"\'\\''" }
                          };
+
+        public enum State
+        {
+            Ready = 10,            
+            Sleeping = 20,
+            Destroyed = 30
+        }
 
         public class Robot : BaseEntity
         {            
@@ -31,17 +39,19 @@ namespace Tests
             public bool IsOperational { get; set; }
             public List<string> Parts { get; set; } = new List<string>();
             public string Message { get; set; }
+            public State State { get; set; }
 
             public Robot()
             {                
             }
 
-            public Robot(string name, int artificialIq, bool isOperational, List<string> parts)
+            public Robot(string name, int artificialIq, bool isOperational, List<string> parts, State state)
             {
                 Name = name;
                 ArtificialIq = artificialIq;                
                 IsOperational = isOperational;
                 Parts = parts;
+                State = state;
             }
         }
 
@@ -72,6 +82,36 @@ namespace Tests
         }
 
         [TestMethod]
+        public void SelectByNonExistentEnum()
+        {
+            var q = new DynamicQuery<Robot>("select * from c where c.entity = @entity and c.state = @state",                
+                new
+                {
+                    entity = _entity,
+                    state = State.Destroyed
+                });
+
+            var robots = _repo.GetList(q);
+
+            Assert.AreEqual(_robots.Count(x => x.State == State.Destroyed), robots.Count);
+        }
+
+        [TestMethod]
+        public void SelectByMoreEnums()
+        {
+            var q = new DynamicQuery<Robot>("select * from c where c.entity = @entity and c.state = @states",
+                new
+                {
+                    entity = _entity,
+                    states = new List<State> {  State.Ready, State.Sleeping }
+                });
+
+            var robots = _repo.GetList(q);
+
+            Assert.AreEqual(_robots.Count(x => x.State != State.Destroyed), robots.Count);
+        }
+
+        [TestMethod]
         public void SelectList()
         {            
             var q = new SqlQuerySpec("select * from c where c.entity = @entity and c.artificialIq > @iq",
@@ -80,6 +120,7 @@ namespace Tests
                     new SqlParameter("@entity", _entity),
                     new SqlParameter("@iq", 120)
                 });
+
             var robots = _repo.GetList(q);
 
             Assert.AreEqual(_robots.Count(x => x.ArtificialIq > 120), robots.Count);            
