@@ -67,7 +67,7 @@ namespace Oogi.Tokens
         [IsFilterable]
         [IsSortable]
         [IsFacetable]
-        public decimal? Money { get; set; }
+        public double? Money { get; set; }
 
         [IsFilterable]
         [IsFacetable]
