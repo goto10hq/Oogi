@@ -84,7 +84,10 @@
     <Compile Include="Queries\SqlQuerySpecQuery.cs" />
     <Compile Include="Queries\IdQuery.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="Tokens\AzureSearchBase.cs" />
+    <Compile Include="Tokens\AzureSearchIndex.cs" />
     <Compile Include="Tokens\AzureSearch.cs" />
+    <Compile Include="Tokens\GeoPoint.cs" />
     <Compile Include="Tokens\IStamp.cs" />
     <Compile Include="Tokens\SimpleStamp.cs" />
     <Compile Include="Tokens\Stamp.cs" />

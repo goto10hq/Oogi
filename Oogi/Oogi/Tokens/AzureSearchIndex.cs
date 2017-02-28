@@ -1,14 +1,14 @@
 ﻿using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
+using Microsoft.Spatial;
 
 namespace Oogi.Tokens
 {
     [SerializePropertyNamesAsCamelCase]
-    public class AzureSearch : AzureSearchBase
+    public class AzureSearchIndex : AzureSearchBase
     {        
         [IsFilterable]
         [IsSortable]        
-        //public GeographyPoint Point { get; set; }
-        public GeoPoint Point { get; set; }
+        public GeographyPoint Point { get; set; }        
     }
 }
