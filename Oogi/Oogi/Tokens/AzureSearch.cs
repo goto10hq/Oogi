@@ -52,7 +52,7 @@ namespace Oogi.Tokens
         [IsSearchable]
         [IsFilterable]
         [IsFacetable]
-        public DateTime? Date { get; set; }
+        public DateTimeOffset? Date { get; set; }
 
         [IsSearchable]
         [IsFilterable]        
