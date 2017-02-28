@@ -2,7 +2,7 @@
 {
     public class GeoPoint
     {
-        public string Point => "Point";
+        public string Type => "Point";
         public double[] Coordinates { get; set; }
         
         public GeoPoint()
