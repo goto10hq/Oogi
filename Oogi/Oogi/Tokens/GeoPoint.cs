@@ -9,9 +9,9 @@
         {            
         }
 
-        public GeoPoint(long @long, long lat)
+        public GeoPoint(double @long, double lat)
         {
-            Coordinates = new double[] { @long, lat };            
+            Coordinates = new[] { @long, lat };            
         }
     }
 }
