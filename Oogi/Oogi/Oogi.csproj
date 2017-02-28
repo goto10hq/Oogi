@@ -35,6 +35,9 @@
     <Reference Include="Microsoft.Azure.Documents.Client, Version=1.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.DocumentDB.1.12.0\lib\net45\Microsoft.Azure.Documents.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Spatial, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Spatial.7.0.0\lib\portable-net45+win8+wpa81\Microsoft.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
@@ -68,6 +71,7 @@
     <Compile Include="Queries\SqlQuerySpecQuery.cs" />
     <Compile Include="Queries\IdQuery.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="Tokens\AzureSearch.cs" />
     <Compile Include="Tokens\IStamp.cs" />
     <Compile Include="Tokens\SimpleStamp.cs" />
     <Compile Include="Tokens\Stamp.cs" />
