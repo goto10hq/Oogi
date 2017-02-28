@@ -49,7 +49,7 @@ namespace Oogi.Tokens
         [IsFilterable]        
         public string Slug { get; set; }
 
-        [IsSearchable]
+        [IsSortable]
         [IsFilterable]
         [IsFacetable]
         public DateTimeOffset? Date { get; set; }
