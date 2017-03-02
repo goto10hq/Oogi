@@ -21,27 +21,39 @@ namespace Oogi.Tokens
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsLucene)]
-        [JsonProperty("title_cz")]
-        public string TitleCz { get; set; }
+        [Analyzer("standardasciifolding.lucene")]        
+        [JsonProperty("title")]
+        public string Title { get; set; }
+        
+        [IsSearchable]
+        [IsSortable]
+        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
+        //[Analyzer("standardasciifolding.lucene")]        
+        public string Text { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnLucene)]
-        [JsonProperty("title_en")]
-        public string TitleEn { get; set; }
+        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
+        //[Analyzer("standardasciifolding.lucene")]        
+        public string Text2 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsLucene)]
-        [JsonProperty("description_cz")]
-        public string DescriptionCz { get; set; }
+        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
+        //[Analyzer("standardasciifolding.lucene")]        
+        public string Text3 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnLucene)]
-        [JsonProperty("description_en")]
-        public string DescriptionEn { get; set; }
+        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
+        //[Analyzer("standardasciifolding.lucene")]        
+        public string Text4 { get; set; }
+
+        [IsSearchable]
+        [IsSortable]
+        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
+        //[Analyzer("standardasciifolding.lucene")]        
+        public string Text5 { get; set; }
 
         [IsSearchable]
         [IsFilterable]
@@ -52,10 +64,50 @@ namespace Oogi.Tokens
         [IsFacetable]
         public DateTimeOffset? Date { get; set; }
 
+        [IsSortable]
+        [IsFilterable]
+        [IsFacetable]
+        public DateTimeOffset? Date2 { get; set; }
+
+        [IsSortable]
+        [IsFilterable]
+        [IsFacetable]
+        public DateTimeOffset? Date3 { get; set; }
+
+        [IsSortable]
+        [IsFilterable]
+        [IsFacetable]
+        public DateTimeOffset? Date4 { get; set; }
+
+        [IsSortable]
+        [IsFilterable]
+        [IsFacetable]
+        public DateTimeOffset? Date5 { get; set; }
+
         [IsSearchable]
         [IsFilterable]
         [IsFacetable]
         public List<string> Tags { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags2 { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags3 { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags4 { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags5 { get; set; }
 
         [IsFilterable]
         [IsSortable]
@@ -65,11 +117,67 @@ namespace Oogi.Tokens
         [IsFilterable]
         [IsSortable]
         [IsFacetable]
+        public int? Number2 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number3 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number4 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number5 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
         public double? Money { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public double? Money2 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public double? Money3 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public double? Money4 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public double? Money5 { get; set; }
 
         [IsFilterable]
         [IsFacetable]
         public bool? Flag { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag2 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag3 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag4 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag5 { get; set; }
 
         [IsFilterable]
         public bool IsDeleted { get; set; }
