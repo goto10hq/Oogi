@@ -18,8 +18,7 @@ namespace Oogi.Tokens
         [IsFilterable]
         public string Index { get; set; }
 
-        [IsSearchable]
-        [IsSortable]
+        [IsSearchable]        
         [Analyzer("standardasciifolding.lucene")]        
         public string Title { get; set; }
         
@@ -180,7 +179,14 @@ namespace Oogi.Tokens
         [IsFilterable]
         public bool IsDeleted { get; set; }
 
+        [IsSortable]
+        [IsSearchable]
         [Analyzer(AnalyzerName.AsString.CsLucene)]
-        public string Order { get; set; }
+        public string OrderCs { get; set; }
+
+        [IsSortable]
+        [IsSearchable]
+        [Analyzer(AnalyzerName.AsString.EnLucene)]
+        public string OrderEn { get; set; }
     }
 }
