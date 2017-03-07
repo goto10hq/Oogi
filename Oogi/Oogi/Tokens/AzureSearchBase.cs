@@ -20,37 +20,36 @@ namespace Oogi.Tokens
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
-        //[Analyzer("standardasciifolding.lucene")]        
+        [Analyzer("standardasciifolding.lucene")]        
         public string Title { get; set; }
         
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [Analyzer("standardasciifolding.lucene")]
         [IsFilterable]        
         public string Text { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [Analyzer("standardasciifolding.lucene")]
         [IsFilterable]        
         public string Text2 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [Analyzer("standardasciifolding.lucene")]
         [IsFilterable]        
         public string Text3 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [Analyzer("standardasciifolding.lucene")]
         [IsFilterable]        
         public string Text4 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [Analyzer("standardasciifolding.lucene")]        
         [IsFilterable]        
         public string Text5 { get; set; }
 
@@ -180,5 +179,8 @@ namespace Oogi.Tokens
 
         [IsFilterable]
         public bool IsDeleted { get; set; }
+
+        [Analyzer(AnalyzerName.AsString.CsLucene)]
+        public string Order { get; set; }
     }
 }
