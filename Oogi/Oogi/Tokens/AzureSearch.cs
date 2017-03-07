@@ -7,8 +7,7 @@ namespace Oogi.Tokens
     public class AzureSearch : AzureSearchBase
     {        
         [IsFilterable]
-        [IsSortable]        
-        //public GeographyPoint Point { get; set; }
+        [IsSortable]                
         public GeoPoint Point { get; set; }
     }
 }

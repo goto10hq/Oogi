@@ -12,6 +12,6 @@
         public GeoPoint(double @long, double lat)
         {
             Coordinates = new[] { @long, lat };            
-        }
+        }        
     }
 }

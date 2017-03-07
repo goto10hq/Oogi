@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-using Newtonsoft.Json;
 
 namespace Oogi.Tokens
 {
@@ -21,38 +20,38 @@ namespace Oogi.Tokens
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer("standardasciifolding.lucene")]        
-        [JsonProperty("title")]
+        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        //[Analyzer("standardasciifolding.lucene")]        
         public string Title { get; set; }
         
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
-        //[Analyzer("standardasciifolding.lucene")]        
+        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [IsFilterable]        
         public string Text { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
-        //[Analyzer("standardasciifolding.lucene")]        
+        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [IsFilterable]        
         public string Text2 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
-        //[Analyzer("standardasciifolding.lucene")]        
+        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [IsFilterable]        
         public string Text3 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
-        //[Analyzer("standardasciifolding.lucene")]        
+        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [IsFilterable]        
         public string Text4 { get; set; }
 
         [IsSearchable]
         [IsSortable]
-        [Analyzer(AnalyzerName.AsString.EnMicrosoft)]
-        //[Analyzer("standardasciifolding.lucene")]        
+        [Analyzer(AnalyzerName.AsString.CsMicrosoft)]
+        [IsFilterable]        
         public string Text5 { get; set; }
 
         [IsSearchable]
