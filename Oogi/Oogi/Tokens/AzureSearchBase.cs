@@ -180,13 +180,6 @@ namespace Oogi.Tokens
         public bool IsDeleted { get; set; }
 
         [IsSortable]
-        [IsSearchable]
-        [Analyzer(AnalyzerName.AsString.CsLucene)]
-        public string OrderCs { get; set; }
-
-        [IsSortable]
-        [IsSearchable]
-        [Analyzer(AnalyzerName.AsString.EnLucene)]
-        public string OrderEn { get; set; }
+        public string Order { get; set; }        
     }
 }
