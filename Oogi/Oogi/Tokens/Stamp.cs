@@ -20,5 +20,10 @@ namespace Oogi.Tokens
         {
             DateTime = dt;
         }
+
+        public override string ToString()
+        {
+            return DateTime.ToString();
+        }
     }
 }

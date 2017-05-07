@@ -1,7 +1,10 @@
-﻿namespace Oogi.Tokens
+﻿using System;
+
+namespace Oogi.Tokens
 {
     public interface IStamp
     {
-        int Epoch { get; }
+        DateTime DateTime { get; set; }
+        int Epoch { get; }        
     }
 }
