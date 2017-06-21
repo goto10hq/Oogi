@@ -6,7 +6,8 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Oogi.Queries;
-using Sushi;
+using Oogi.Tokens;
+using Sushi2;
 
 namespace Oogi
 {
@@ -14,9 +15,14 @@ namespace Oogi
     {
         private readonly Connection _connection;
 
-        public Repository()
+        public Repository(Connection connection)
+        {
+            _connection = connection;
+        }
+
+        public Repository(ConnectionString connectionString)
+            : this(connectionString.Endpoint, connectionString.AuthorizationKey, connectionString.Database, connectionString.Database)
         {            
-            _connection = new Connection();
         }
 
         public Repository(string endpoint, string authorizationKey, string database, string collection)

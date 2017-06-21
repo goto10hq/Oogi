@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Newtonsoft.Json;
-using Sushi;
+using Oogi.Tokens;
+using Sushi2;
 
 namespace Oogi
 {
@@ -26,11 +26,19 @@ namespace Oogi
         /// <summary>
         /// Ctor.
         /// </summary>
+        public Connection(ConnectionString connectionString) 
+            : this(connectionString.Endpoint, connectionString.AuthorizationKey, connectionString.Database, connectionString.Database)
+        {
+        }
+
+        /// <summary>
+        /// Ctor.
+        /// </summary>
         public Connection(string endpoint, string authorizationKey, string database, string collection)
         {
             var connectionPolicy = new ConnectionPolicy
                                    {
-                                       UserAgentSuffix = CloudConfigurationManager.GetSetting("Oogi.DocumentDbUserAgentSuffix") ?? "Oogi",
+                                       UserAgentSuffix = "Oogi",
                                        ConnectionMode = ConnectionMode.Direct,
                                        ConnectionProtocol = Protocol.Tcp
                                    };
@@ -39,24 +47,7 @@ namespace Oogi
             DatabaseId = database;
             CollectionId = collection;
         }
-
-        /// <summary>
-        /// Ctor.
-        /// </summary>
-        public Connection()
-        {
-            var connectionPolicy = new ConnectionPolicy
-            {
-                UserAgentSuffix = CloudConfigurationManager.GetSetting("Oogi.DocumentDbUserAgentSuffix") ?? "Oogi",
-                ConnectionMode = ConnectionMode.Direct,
-                ConnectionProtocol = Protocol.Tcp
-            };
-
-            Client = new DocumentClient(new Uri(CloudConfigurationManager.GetSetting("Oogi.DocumentDbEndPoint")), CloudConfigurationManager.GetSetting("Oogi.DocumentDbAuthorizationKey"), connectionPolicy);            
-            DatabaseId = CloudConfigurationManager.GetSetting("Oogi.DocumentDbDatabase");
-            CollectionId = CloudConfigurationManager.GetSetting("Oogi.DocumentDbCollection");
-        }
-
+        
         /// <summary>
         /// Upsert document(s) as pure json.
         /// </summary>

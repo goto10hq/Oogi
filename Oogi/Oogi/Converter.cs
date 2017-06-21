@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Oogi.Tokens;
-using Sushi;
+using Sushi2;
+using System.Reflection;
 
 namespace Oogi
 {
@@ -64,17 +65,18 @@ namespace Oogi
         {
             if (val == null)
                 return "null";
-            
+                        
             var t = val.GetType();
+            var inf = t.GetTypeInfo();
 
-            if (t.IsEnum)
+            if (inf.IsEnum)
                 return EnumProcessor(val);
 
             if (_processors.ContainsKey(t))
                 return _processors[t].Invoke(val);
 
-            var isEnumerableOfT = t.GetInterfaces()
-                .Any(ti => ti.IsGenericType
+            var isEnumerableOfT = inf.GetInterfaces()
+                .Any(ti => ti.GetTypeInfo().IsGenericType
                      && ti.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
             if (isEnumerableOfT)

@@ -1,5 +1,5 @@
 ﻿using System;
-using Sushi;
+using Sushi2;
 
 namespace Oogi.Tokens
 {
@@ -50,7 +50,7 @@ namespace Oogi.Tokens
 
         public int CompareTo(IStamp other)
         {
-            return DateTime.CompareTo(other);
+            return DateTime.CompareTo(other.DateTime);
         }
 
         public override bool Equals(object obj)
