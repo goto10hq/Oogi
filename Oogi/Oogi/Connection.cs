@@ -27,7 +27,7 @@ namespace Oogi
         /// Ctor.
         /// </summary>
         public Connection(ConnectionString connectionString) 
-            : this(connectionString.Endpoint, connectionString.AuthorizationKey, connectionString.Database, connectionString.Database)
+            : this(connectionString.Endpoint, connectionString.AuthorizationKey, connectionString.Database, connectionString.Collection)
         {
         }
 
