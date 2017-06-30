@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Azure.Search;
-using Microsoft.Azure.Search.Models;
 
 namespace Oogi.Tokens
 {
@@ -51,6 +50,30 @@ namespace Oogi.Tokens
         [Analyzer("standardasciifolding.lucene")]        
         [IsFilterable]        
         public string Text5 { get; set; }
+
+        [IsSearchable]
+        [IsSortable]
+        [Analyzer("standardasciifolding.lucene")]
+        [IsFilterable]
+        public string Text6 { get; set; }
+
+        [IsSearchable]
+        [IsSortable]
+        [Analyzer("standardasciifolding.lucene")]
+        [IsFilterable]
+        public string Text7 { get; set; }
+
+        [IsSearchable]
+        [IsSortable]
+        [Analyzer("standardasciifolding.lucene")]
+        [IsFilterable]
+        public string Text8 { get; set; }
+
+        [IsSearchable]
+        [IsSortable]
+        [Analyzer("standardasciifolding.lucene")]
+        [IsFilterable]
+        public string Text9 { get; set; }
 
         [IsSearchable]
         [IsFilterable]
@@ -106,6 +129,26 @@ namespace Oogi.Tokens
         [IsFacetable]
         public List<string> Tags5 { get; set; }
 
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags6 { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags7 { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags8 { get; set; }
+
+        [IsSearchable]
+        [IsFilterable]
+        [IsFacetable]
+        public List<string> Tags9 { get; set; }
+        
         [IsFilterable]
         [IsSortable]
         [IsFacetable]
@@ -130,6 +173,26 @@ namespace Oogi.Tokens
         [IsSortable]
         [IsFacetable]
         public int? Number5 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number6 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number7 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number8 { get; set; }
+
+        [IsFilterable]
+        [IsSortable]
+        [IsFacetable]
+        public int? Number9 { get; set; }
 
         [IsFilterable]
         [IsSortable]
@@ -175,6 +238,22 @@ namespace Oogi.Tokens
         [IsFilterable]
         [IsFacetable]
         public bool? Flag5 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag6 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag7 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag8 { get; set; }
+
+        [IsFilterable]
+        [IsFacetable]
+        public bool? Flag9 { get; set; }
 
         [IsFilterable]
         public bool IsDeleted { get; set; }
