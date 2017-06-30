@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Oogi</id>
+    <version>1.4.1</version>
+    <title>Oogi</title>
+    <authors>Goto10</authors>
+    <owners>Goto10</owners>
+    <licenseUrl>https://github.com/goto10hq/Oogi/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/goto10hq/Oogi</projectUrl>    
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>DocumentDB repository pattern overlord.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2016-2017 Goto10</copyright>
+    <tags>azure repository documentdb goto10</tags>
+  </metadata>
+</package>
